@@ -1,0 +1,11 @@
+{% extends "appbuilder/general/model/edit.html" %}
+
+{% block head_css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='editor/style.css')}}"></link>
+{% endblock %}
+
+{% block head_js %}
+    {{ super() }}
+    <script src="{{url_for('static',filename='editor/index.min.js')}}"></script>
+{% endblock %}
