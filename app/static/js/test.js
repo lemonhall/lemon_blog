@@ -9,10 +9,20 @@ $("#content").before("<div id='toolbar-container'></div><div id='editor-containe
 const { createEditor, createToolbar } = window.wangEditor
 
 // 编辑器配置
-const editorConfig = {}
+const editorConfig = { MENU_CONF: {} }
 editorConfig.placeholder = '请输入内容'
 editorConfig.onChange = (editor) => {
     document.getElementById('content').value = editor.getHtml()
+}
+
+editorConfig.MENU_CONF['uploadImage'] = {
+     server: '/api/v1/uploadapi/upload_image',
+     fieldName: 'image',
+     maxFileSize: 30 * 1024 * 1024, // 1M
+    // 上传之前触发
+    onBeforeUpload(file) {
+        return file
+    }
 }
 
 // 工具栏配置

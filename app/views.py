@@ -1,4 +1,5 @@
-from flask import render_template
+import os
+from flask import render_template,request,jsonify
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder import ModelView, ModelRestApi
 
@@ -8,6 +9,10 @@ from flask_appbuilder.widgets import (
     ListBlock, ListItem, ListLinkWidget, ListThumbnail, ShowBlockWidget
 )
 from .widgets import NoteShowWidget,NoteFormWidget
+from flask_appbuilder.api import BaseApi, expose
+from werkzeug.datastructures import ImmutableMultiDict
+import string
+import random
 
 """
     Create your Model based REST API::
@@ -65,6 +70,35 @@ def page_not_found(e):
         404,
     )
 
+#https://flask.palletsprojects.com/en/2.1.x/patterns/fileuploads/
+class UpLoadApi(BaseApi):
+    @expose('/upload_image', methods=['POST', 'GET'])
+    def upload_image(self):
+        #https://tedboy.github.io/flask/generated/generated/werkzeug.ImmutableMultiDict.html
+        data = request.files
+        #https://tedboy.github.io/flask/generated/generated/werkzeug.FileStorage.html
+        image = data.get("image")
+        #image.filename就可以读到文件名了
+        upload_dir = os.path.join(appbuilder.app.root_path,"static/uploads")
+        os_save_name = os.path.join(upload_dir,image.filename)
+        #解决直接粘贴或者任何文件名重复时候的返回问题的一个文件名
+        new_file_name = ""
+        if os.path.exists(os_save_name):
+            #得到文件名和扩展名
+            name , extension = os.path.splitext(image.filename)
+            # printing lowercase
+            letters = string.ascii_lowercase
+            random_str = ''.join(random.choice(letters) for i in range(20))
+            new_file_name = name + "_" + random_str + extension
+            print(new_file_name)
+            os_save_name = os.path.join(upload_dir,new_file_name)
+            image.save(os_save_name)
+        else:
+            new_file_name=image.filename
+            image.save(os_save_name)
+        #https://riptutorial.com/flask/example/5831/return-a-json-response-from-flask-api
+        res = {'errno':0,'data':{'url':"/static/uploads/"+new_file_name}}
+        return jsonify(res)
 
 db.create_all()
 appbuilder.add_view(
@@ -74,3 +108,5 @@ appbuilder.add_view(
     category = "日记",
     category_icon = "fa-envelope"
 )
+
+appbuilder.add_api(UpLoadApi)
