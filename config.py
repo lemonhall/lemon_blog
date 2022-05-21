@@ -24,10 +24,10 @@ CSRF_ENABLED = True
 # GLOBALS FOR APP Builder
 # ------------------------------
 # Uncomment to setup Your App name
-# APP_NAME = "My App Name"
+APP_NAME = "重制豆瓣日志"
 
 # Uncomment to setup Setup an App icon
-# APP_ICON = "static/img/logo.jpg"
+APP_ICON = "/static/img/favicon.png"
 
 # ----------------------------------------------------
 # AUTHENTICATION CONFIG
