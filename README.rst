@@ -52,3 +52,9 @@ That's it!!
     2、看能否支持show模式下正确现实代码
     3、看是否能支持直接copy粘贴图片，这样就很快
     4、生成个摘要，然后发到豆瓣日记里面去联动起来，这个是很后期的功能了
+
+
+- 打开Public的权限::
+
+    1、需要在config.py里，反注释掉AUTH_ROLE_ADMIN = 'Admin'
+    2、然后进入管理界面后，针对Public这个role，配置NotesView的试图为show

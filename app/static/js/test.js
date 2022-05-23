@@ -1,4 +1,4 @@
-$("#content").hide()
+//$("#content").hide()
 //console.log($("#content").text());
 var init_content = $("#content").text();
 console.log(init_content);
