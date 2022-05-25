@@ -4,15 +4,15 @@
 <link rel="stylesheet" href="{{url_for('static',filename='editor/style.css')}}"></link>
 <script src="{{url_for('static',filename='editor/index.min.js')}}"></script>
 <!-- 引入 prism css -->
-<link href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism.css" rel="stylesheet">
+<link href="{{url_for('static',filename='prism/prism.css')}}" rel="stylesheet">
 <!-- 引入 避免图片超出容器 -->
 <style type="text/css">
 img {max-width: 100%;}
 </style>
 <!-- 引入 prism js -->
-<script src="https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-core.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="{{url_for('static',filename='prism/prism.min.js')}}"></script>
+<script src="{{url_for('static',filename='prism/prism-core.min.js')}}"></script>
+<script src="{{url_for('static',filename='prism/prism-autoloader.min.js')}}"></script>
 
 
 <div class="list-group">
