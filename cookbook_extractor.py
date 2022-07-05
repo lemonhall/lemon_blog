@@ -7,6 +7,8 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from app import appbuilder, db
 from app.models import Notes
 import logging
+import sqlite3
+import datetime
 log = logging.getLogger(__name__)
 
 
@@ -154,5 +156,25 @@ def scraping(url):
 
 
 #=========main=============#
-s_url = sys.argv[1]
-scraping(s_url)
+#s_url = sys.argv[1]
+#https://docs.python.org/3/library/sqlite3.html
+con = sqlite3.connect('./monitor/sync.db')
+cur = con.cursor()
+saved_in_db = cur.execute("SELECT * FROM sync WHERE status=0")
+print("==============I am new extractor =======================")
+row_list = saved_in_db.fetchall()
+if row_list:
+	for row in row_list:
+		print("processing one row...................")
+## cur.execute('''CREATE TABLE sync (id text, title text, href text, status int, time timestamp)''')
+		id_in_db  = row[0]
+		url_in_db = row[2]
+		print(url_in_db)
+		scraping(url_in_db)
+		cur.execute("update sync set status=2 WHERE id=:id", {"id": id_in_db})
+	#for 循环结束，status为0的都会被update掉
+	con.commit()
+else:
+	print("do NOTHING.....nothoning to be synced")
+#scraping(s_url)
+con.close()
